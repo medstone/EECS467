@@ -26,7 +26,7 @@ LDFLAGS = $(LDFLAGS_STD) \
 
 LIBDEPS = $(call libdeps, $(LDFLAGS))
 
-ALL = poses $(LIB_EECS467)
+ALL = poses key_producer key_listener $(LIB_EECS467)
 
 all: $(ALL)
 
@@ -34,6 +34,9 @@ poses:	PosesDrawer.o $(LIPDEPS)
 	@$(CXX) -o $@ $^ $(LDFLAGS)
 
 key_producer: key_producer.o $(LIPDEPS)
+	@$(CXX) -o $@ $^ $(LDFLAGS)
+
+key_listener: key_listener.o $(LIPDEPS)
 	@$(CXX) -o $@ $^ $(LDFLAGS)
 
 clean:

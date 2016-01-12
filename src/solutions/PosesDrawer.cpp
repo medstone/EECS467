@@ -74,8 +74,8 @@ void PosesDrawer::render(){
     vx_object_t* posText = vxo_text_create(VXO_TEXT_ANCHOR_BOTTOM_RIGHT, mousePos.c_str());
     vx_buffer_add_back(helloBuf, vxo_chain(vxo_pix_coords(VX_ORIGIN_BOTTOM_RIGHT, posText), posText));
 	for(unsigned int i = 0; i < triX.size(); ++i){
-		vx_object_t* tri = vxo_triangle(vxo_lines_style(triangleColor,2));
-		vx_buffer_add_back(triBuf, vxo_chain(vxo_mat_translate3(triX[i],triY[i],0), vxo_mat_scale2(1, .5), vxo_mat_rotate_z(omega[i]), tri));
+		vx_object_t* tri = vxo_chain(vxo_mat_scale2(1, .5), vxo_triangle(vxo_lines_style(triangleColor,2)));
+		vx_buffer_add_back(triBuf, vxo_chain(vxo_mat_translate3(triX[i],triY[i],0), vxo_mat_rotate_z(omega[i]), tri));
 		points[(3*i)+0] = triX[i];
 		points[(3*i)+1] = triY[i];
 		points[(3*i)+2] = 0;
