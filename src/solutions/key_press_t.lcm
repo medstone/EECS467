@@ -1,0 +1,5 @@
+struct key_press_t
+{
+	int64_t	timestamp;
+	int8_t	character;
+}
