@@ -7,9 +7,16 @@ using namespace std;
 
 class Handle{
 public:
+
+	Handle(){
+		messagesRecieved = 0;
+		startProducer = 0;
+		startSystem = 0;
+	}
+
 	void recieve(const lcm::ReceiveBuffer* rbuf,
-       			 const std::string& chan, 
-                 const key_press_t* msg){
+       			const std::string& chan, 
+                 	const key_press_t* msg){
 		messagesRecieved++;
 		if(startProducer == 0 && startSystem == 0){
 			startSystem = utime_now();
@@ -18,13 +25,20 @@ public:
 			cout << "Producer time: 1 word per minute/n";
 			return;
 		}
-		cout << "System time: " << messagesRecieved / ((-startSystem + utime_now()) / 60000) << endl;
-		cout << "Producer time: " << messagesRecieved / ((-startProducer + msg->timestamp) / 60000) << endl;
+		double sysTime = ((utime_now() - startSystem) / 60000000.0);
+		double prodTime = ((msg->timestamp - startProducer) / 60000000.0);
+		if(sysTime == 0 || prodTime == 0){
+			cout << "System time: " << messagesRecieved << endl;
+			cout << "Producer time: " << messagesRecieved << endl;
+			return;
+		}
+		cout << "System time: " << (double)(messagesRecieved) / sysTime << endl;
+		cout << "Producer time: " << (double)(messagesRecieved) / prodTime << endl;
 	}
 private:
-	int messagesRecieved = 0;
-	int64_t startProducer = 0;
-	int64_t startSystem = 0;
+	int messagesRecieved;
+	int64_t startProducer;
+	int64_t startSystem;
 };
 
 int main(int argc, char** argv){
@@ -32,6 +46,8 @@ int main(int argc, char** argv){
 	if(!lcm.good()){
 		return 1;
 	}
+	Handle hand;
+	lcm.subscribe("A0_KEY_PRESS", &Handle::recieve, &hand);
 	while(0 == lcm.handle());
 	return 0;
 }

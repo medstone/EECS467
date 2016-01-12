@@ -19,4 +19,7 @@ int main(){
 		press.timestamp = utime_now();
 		lcm.publish("A0_KEY_PRESS", &press);
 	}
+
+	system("stty sane");
+	return 0;
 }

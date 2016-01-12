@@ -1,0 +1,5 @@
+1. The estimates based on system time are slightly higher than the value from the timestamps. This behaviour is caused by the fact that transmitting the message takes time and causes variations between the predicted time passed when calculated using system time and the timestamps.
+
+2. The estimate for the system time is 4 times higher because it is seeing 1/4 of the time passing but the timestamp data is uneffected because the time difference calculated by them will always have the same value.
+
+3. This means that we can run simulated data using the logs and get the results in significantly less time with real world data. So we can figure out how our robot would behave in 1/4 or 1/8 the time it would take us to run it normally with system clocks. This means that the programs should use the times in the timestamped data when the data is timestamped.
